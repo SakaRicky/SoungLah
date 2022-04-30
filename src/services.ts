@@ -21,10 +21,10 @@ interface TranslateResponse {
 async function query(data: any) {
 	console.log("Fetching from query");
 	const response = await fetch(
-		"https://api-inference.huggingface.co/models/rickySaka/eng-med",
+		"https://api-inference.huggingface.co/models/rickySaka/en-md",
 		{
 			headers: {
-				Authorization: "Bearer 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",
+				Authorization: `Bearer ${process.env.REACT_APP_HF_API_KEY}`,
 			},
 			method: "POST",
 			body: JSON.stringify(data),
@@ -37,6 +37,8 @@ async function query(data: any) {
 }
 
 export const translate = async ({ srcLanguage, text }: TranslateProps) => {
+	console.log(`Bearer ${process.env.REACT_APP_HF_API_KEY}`);
+
 	try {
 		const res = await query({ inputs: text });
 
