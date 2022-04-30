@@ -1,5 +1,5 @@
 import { createStyles, Paper, Select, Textarea } from "@mantine/core";
-import React, { ChangeEvent, ChangeEventHandler } from "react";
+import React, { ChangeEvent } from "react";
 import { Language } from "../../types";
 
 export interface TextZone {
@@ -9,7 +9,7 @@ export interface TextZone {
 	translated?: string;
 }
 
-const useStyles = createStyles(theme => ({
+const useStyles = createStyles(() => ({
 	root: {
 		marginTop: "1rem",
 	},

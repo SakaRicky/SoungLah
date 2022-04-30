@@ -1,7 +1,7 @@
 // import { NewStudent, Student } from "types";
-import axios from "axios";
+// import axios from "axios";
 
-const baseURL = "http://127.0.0.1:5000/";
+// const baseURL = "http://127.0.0.1:5000/";
 
 export interface TranslateProps {
 	srcLanguage: string;
@@ -14,9 +14,9 @@ export interface Translated {
 	translatedText: string;
 }
 
-interface TranslateResponse {
-	translate: Translated;
-}
+// interface TranslateResponse {
+// 	translate: Translated;
+// }
 
 async function query(data: any) {
 	console.log("Fetching from query");

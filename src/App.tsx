@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import "./App.scss";
 import { Button, createStyles } from "@mantine/core";
 import { Header, TextZone } from "./components";
