@@ -37,8 +37,6 @@ async function query(data: any) {
 }
 
 export const translate = async ({ srcLanguage, text }: TranslateProps) => {
-	console.log(`Bearer ${process.env.REACT_APP_HF_API_KEY}`);
-
 	try {
 		const res = await query({ inputs: text });
 
