@@ -60,3 +60,26 @@ export const translate = async ({ srcLanguage, text }: TranslateProps) => {
 		console.log(error.message);
 	}
 };
+
+export const activateModel = async () => {
+	try {
+		const res = await query({ inputs: "sample" });
+
+		console.log(res);
+
+		return res;
+
+		// const { data } = await axios.post<TranslateResponse>(
+		// 	`${baseURL}translate`,
+		// 	{
+		// 		srcLanguage: srcLanguage,
+		// 		targetLanguage: "med",
+		// 		text: text,
+		// 	}
+		// );
+
+		// return data.translate;
+	} catch (error: any) {
+		console.log(error.message);
+	}
+};

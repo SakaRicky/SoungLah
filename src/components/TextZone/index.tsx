@@ -9,14 +9,26 @@ export interface TextZone {
 	translated?: string;
 }
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles(theme => ({
 	root: {
-		marginTop: "1rem",
+		margin: "1rem 0",
+		width: "100%",
+		flex: 1,
+		outline: `1px solid ${theme.colors.green[2]}`,
+
+		// Media query with value from theme
+		[`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+			width: "auto",
+		},
 	},
 	select: {
 		// backgroundColor: "#000",
 		// color: "red",
 		marginBottom: "0.5rem",
+	},
+	h5: {
+		margin: "0",
+		color: "red",
 	},
 }));
 
@@ -54,7 +66,7 @@ export const TextZone = ({
 				/>
 
 				<Textarea
-					minRows={6}
+					minRows={10}
 					radius="md"
 					placeholder="Enter your text here"
 					required
@@ -75,11 +87,11 @@ export const TextZone = ({
 					radius="sm"
 				/>
 			) : (
-				<h5>Medumba</h5>
+				<h5 style={{ margin: "0.5rem", fontSize: "1.2rem" }}>Medumba</h5>
 			)}
 
 			<Textarea
-				minRows={6}
+				minRows={10}
 				radius="md"
 				required
 				value={translated}

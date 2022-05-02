@@ -9,4 +9,12 @@ export const theme: MantineThemeOverride = {
 		red: ["#FFF5F5", "#FFC9C9", "#FF8787", "#FA5252", "#E03131", "#C92A2A"],
 	},
 	white: "#fff",
+
+	breakpoints: {
+		xs: 400,
+		sm: 800,
+		md: 1000,
+		lg: 1200,
+		xl: 1400,
+	},
 };
