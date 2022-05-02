@@ -7,14 +7,21 @@ export interface TextZone {
 	sourceTextChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 	sourceLanguageChange?: (value: string) => void;
 	translated?: string;
+	noTextError?: boolean;
 }
 
-const useStyles = createStyles(theme => ({
+interface StyleProps {
+	noTextError: boolean | undefined;
+}
+
+const useStyles = createStyles((theme, { noTextError }: StyleProps) => ({
 	root: {
 		margin: "1rem 0",
 		width: "100%",
 		flex: 1,
-		outline: `1px solid ${theme.colors.green[2]}`,
+		outline: noTextError
+			? `2px solid ${theme.colors.red[5]}`
+			: `1px solid ${theme.colors.green[2]}`,
 
 		// Media query with value from theme
 		[`@media (min-width: ${theme.breakpoints.sm}px)`]: {
@@ -37,8 +44,9 @@ export const TextZone = ({
 	sourceTextChange,
 	sourceLanguageChange,
 	translated,
+	noTextError,
 }: TextZone) => {
-	const { classes } = useStyles();
+	const { classes } = useStyles({ noTextError });
 
 	const inputLanguages: Language[] = [
 		{ value: "fre", label: "French" },
@@ -68,10 +76,11 @@ export const TextZone = ({
 				<Textarea
 					minRows={10}
 					radius="md"
-					placeholder="Enter your text here"
+					placeholder={
+						noTextError ? "Please enter some text" : "Select source language"
+					}
 					required
 					onChange={sourceTextChange}
-					// className={classes.}
 				/>
 			</Paper>
 		);
@@ -90,13 +99,7 @@ export const TextZone = ({
 				<h5 style={{ margin: "0.5rem", fontSize: "1.2rem" }}>Medumba</h5>
 			)}
 
-			<Textarea
-				minRows={10}
-				radius="md"
-				required
-				value={translated}
-				// className={classes.}
-			/>
+			<Textarea minRows={10} radius="md" required value={translated} />
 		</Paper>
 	);
 };

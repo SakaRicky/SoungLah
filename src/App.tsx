@@ -4,6 +4,7 @@ import { Button, createStyles, MediaQuery } from "@mantine/core";
 import { Header, TextZone } from "./components";
 import { activateModel, translate, Translated } from "./services";
 import { DownArrow, RightArrow } from "./components/Arrows";
+import { TranslatingLoader } from "./components";
 
 const useStyles = createStyles(theme => ({
 	app: {
@@ -70,6 +71,8 @@ function App() {
 	const [changingsourceText, setChangingSourceText] = useState<boolean>(false);
 	const [translatedText, setTranslatedText] = useState<string>("");
 	const [loading, setLoading] = useState(true);
+	const [isTranslating, setIsTranslating] = useState(false);
+	const [noTextError, setNoTextError] = useState(false);
 
 	useEffect(() => {
 		try {
@@ -91,15 +94,24 @@ function App() {
 	};
 
 	const fetchTranslation = async () => {
-		const translated: Translated | undefined = await translate({
-			srcLanguage: sourceLanguage,
-			text: sourceText,
-		});
-		console.log(translated);
+		if (sourceText === "") {
+			setNoTextError(true);
+			setInterval(() => {
+				setNoTextError(false);
+			}, 5000);
+		} else {
+			setIsTranslating(true);
+			const translated: Translated | undefined = await translate({
+				srcLanguage: sourceLanguage,
+				text: sourceText,
+			});
+			console.log(translated);
 
-		if (translated !== undefined) {
-			setTranslatedText(translated.translatedText);
-			setChangingSourceText(false);
+			if (translated !== undefined) {
+				setTranslatedText(translated.translatedText);
+				setChangingSourceText(false);
+				setIsTranslating(false);
+			}
 		}
 	};
 
@@ -126,19 +138,26 @@ function App() {
 								type="input"
 								sourceLanguageChange={sourceLanguageChange}
 								sourceTextChange={sourceTextChange}
+								noTextError={noTextError}
 							/>
 
-							<MediaQuery largerThan="sm" styles={{ display: "none" }}>
-								<div className={classes.arrow}>
-									<DownArrow />
-								</div>
-							</MediaQuery>
+							{isTranslating ? (
+								<TranslatingLoader />
+							) : (
+								<div>
+									<MediaQuery largerThan="sm" styles={{ display: "none" }}>
+										<div className={classes.arrow}>
+											<DownArrow />
+										</div>
+									</MediaQuery>
 
-							<MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-								<div className={classes.arrow}>
-									<RightArrow />
+									<MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+										<div className={classes.arrow}>
+											<RightArrow />
+										</div>
+									</MediaQuery>
 								</div>
-							</MediaQuery>
+							)}
 
 							<TextZone type="output" translated={textToDisplayInTranslated} />
 						</div>
