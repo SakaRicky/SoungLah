@@ -24,7 +24,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 		},
 
 		a: {
-			fontWeight: "100",
+			fontWeight: "900",
 			fontStyle: "italic",
 			fontSize: "1.5rem",
 			textDecoration: "none",

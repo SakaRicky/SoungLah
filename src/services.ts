@@ -18,22 +18,27 @@ export interface Translated {
 // 	translate: Translated;
 // }
 
-async function query(data: any) {
+async function query(data: { inputs: string }) {
 	console.log("Fetching from query");
-	const response = await fetch(
-		"https://api-inference.huggingface.co/models/rickySaka/en-md",
-		{
-			headers: {
-				Authorization: `Bearer ${process.env.REACT_APP_HF_API_KEY}`,
-			},
-			method: "POST",
-			body: JSON.stringify(data),
-		}
-	);
-	const result = await response.json();
-	console.log(result);
+	try {
+		const response = await fetch(
+			"https://api-inference.huggingface.co/models/rickySaka/en-md",
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.REACT_APP_HF_API_KEY}`,
+				},
+				method: "POST",
+				body: JSON.stringify(data),
+			}
+		);
+		const result = await response.json();
+		console.log(result);
 
-	return result;
+		return result;
+	} catch (error) {
+		console.log(error);
+		return error;
+	}
 }
 
 export const translate = async ({ srcLanguage, text }: TranslateProps) => {
@@ -56,6 +61,16 @@ export const translate = async ({ srcLanguage, text }: TranslateProps) => {
 		// );
 
 		// return data.translate;
+	} catch (error: any) {
+		console.log(error.message);
+	}
+};
+
+export const activateModel = async () => {
+	try {
+		const res = await query({ inputs: "sample" });
+
+		return res;
 	} catch (error: any) {
 		console.log(error.message);
 	}
