@@ -73,6 +73,8 @@ function App() {
 	const [loading, setLoading] = useState(true);
 	const [isTranslating, setIsTranslating] = useState(false);
 	const [noTextError, setNoTextError] = useState(false);
+	const [nosourceLanguagetError, setNosourceLanguagetErrorError] =
+		useState(false);
 
 	useEffect(() => {
 		try {
@@ -98,6 +100,11 @@ function App() {
 			setNoTextError(true);
 			setInterval(() => {
 				setNoTextError(false);
+			}, 5000);
+		} else if (sourceLanguage === "") {
+			setNosourceLanguagetErrorError(true);
+			setInterval(() => {
+				setNosourceLanguagetErrorError(false);
 			}, 5000);
 		} else {
 			setIsTranslating(true);
@@ -139,6 +146,7 @@ function App() {
 								sourceLanguageChange={sourceLanguageChange}
 								sourceTextChange={sourceTextChange}
 								noTextError={noTextError}
+								nosourceLanguagetError={nosourceLanguagetError}
 							/>
 
 							{isTranslating ? (

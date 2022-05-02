@@ -10,6 +10,8 @@ export const TranslatingLoader = () => {
 			xmlnsXlink="http://www.w3.org/1999/xlink"
 			x="0px"
 			y="0px"
+			width="60"
+			height="60"
 			viewBox="0 0 100 100"
 			enable-background="new 0 0 100 100"
 			xmlSpace="preserve"
