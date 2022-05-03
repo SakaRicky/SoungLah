@@ -76,12 +76,14 @@ export const TextZone = ({
 					placeholder="Select source language"
 					data={inputLanguages}
 					radius="sm"
+					size="lg"
 					onChange={sourceLanguageChange}
 				/>
 
 				<Textarea
 					minRows={10}
 					radius="md"
+					size="xl"
 					placeholder={
 						noTextError ? "Please enter some text" : "Select source language"
 					}
@@ -105,7 +107,13 @@ export const TextZone = ({
 				<h5 style={{ margin: "0.5rem", fontSize: "1.2rem" }}>Medumba</h5>
 			)}
 
-			<Textarea minRows={10} radius="md" required value={translated} />
+			<Textarea
+				minRows={10}
+				radius="md"
+				size="xl"
+				required
+				value={translated}
+			/>
 		</Paper>
 	);
 };
