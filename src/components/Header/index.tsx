@@ -14,7 +14,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 		alignItems: "center",
 		justifyContent: "space-between",
 		padding: "1rem 2rem",
-		height: "5vh",
+		minHeight: "3rem",
 
 		// Dynamic media queries, define breakpoints in theme, use anywhere
 		[`@media (max-width: ${theme.breakpoints.sm}px)`]: {

@@ -8,12 +8,14 @@ const useStyles = createStyles(theme => ({
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
-		padding: "1.5rem 1rem",
+		padding: "1.5rem",
+		minHeight: "3rem",
+		marginTop: "auto",
 
 		// Media query with value from theme
-		[`@media (min-width: ${theme.breakpoints.sm}px)`]: {
-			width: "auto",
-		},
+		// [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+		// 	width: "auto",
+		// },
 	},
 }));
 

@@ -73,12 +73,14 @@ export const activateModel = async (): Promise<Activated> => {
 	// }
 
 	try {
-		const response = await query({ inputs: "sample" });
-		const result = await response.json();
+		// const response = await query({ inputs: "sample" });
+		// const result = await response.json();
 
-		return {
-			translatedText: result[0].generated_text,
-		};
+		return { translatedText: "result[0].generated_text" };
+
+		// return {
+		// 	translatedText: result[0].generated_text,
+		// };
 	} catch (error: any) {
 		throw new Error("Error caught by activateModel", error);
 	}

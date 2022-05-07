@@ -9,6 +9,10 @@ import { TranslatingLoader } from "./components";
 const useStyles = createStyles(theme => ({
 	app: {
 		color: theme.colors.gray[8],
+		minHeight: "100vh",
+		display: "flex",
+		flexDirection: "column",
+		backgroundColor: theme.colors.gray[1],
 		// maxWidth: "1200px",
 
 		h1: {
@@ -24,13 +28,11 @@ const useStyles = createStyles(theme => ({
 
 	body: {
 		padding: "1rem",
-		height: "90%",
-		backgroundColor: theme.colors.gray[1],
 
 		// Media query with value from theme
-		[`@media (min-width: ${theme.breakpoints.sm}px)`]: {
-			height: "80vh",
-		},
+		// [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+		// 	height: "80vh",
+		// },
 
 		h1: {},
 	},
@@ -151,7 +153,7 @@ function App() {
 	return (
 		<div className={classes.app}>
 			<Header />
-			<div className={classes.body}>
+			<body className={classes.body}>
 				<h1>SoungLah Translator</h1>
 				<p>
 					Just give it a source text and choose the language you want it to be
@@ -197,7 +199,7 @@ function App() {
 						</Button>
 					</div>
 				)}
-			</div>
+			</body>
 			<Footer />
 		</div>
 	);
