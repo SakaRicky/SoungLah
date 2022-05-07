@@ -8,8 +8,7 @@ const useStyles = createStyles(theme => ({
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
-		height: "5vh",
-		padding: "1rem",
+		padding: "1.5rem 1rem",
 
 		// Media query with value from theme
 		[`@media (min-width: ${theme.breakpoints.sm}px)`]: {

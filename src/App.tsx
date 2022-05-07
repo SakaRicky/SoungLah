@@ -9,7 +9,6 @@ import { TranslatingLoader } from "./components";
 const useStyles = createStyles(theme => ({
 	app: {
 		color: theme.colors.gray[8],
-		height: "100vh",
 		// maxWidth: "1200px",
 
 		h1: {

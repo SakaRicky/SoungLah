@@ -38,7 +38,7 @@ const useStyles = createStyles(
 				: "nine",
 		},
 		textArea: {
-			height: "10vh",
+			height: "20vh",
 			borderRadius: "0.5rem",
 			outline: `2px solid ${theme.colors.gray[4]}`,
 			border: "none",
@@ -67,7 +67,7 @@ const useStyles = createStyles(
 		translatedTextArea: {
 			border: `2px solid ${theme.colors.gray[4]}`,
 			borderRadius: "0.5rem",
-			height: "10vh",
+			height: "20vh",
 			marginTop: "1rem",
 			padding: "1rem",
 			fontSize: "1.5rem",
