@@ -9,7 +9,6 @@ import { TranslatingLoader } from "./components";
 const useStyles = createStyles(theme => ({
 	app: {
 		color: theme.colors.gray[8],
-		backgroundColor: theme.colors.gray[1],
 		height: "100vh",
 		// maxWidth: "1200px",
 
@@ -26,7 +25,8 @@ const useStyles = createStyles(theme => ({
 
 	body: {
 		padding: "1rem",
-		height: "80%",
+		height: "90%",
+		backgroundColor: theme.colors.gray[1],
 
 		h1: {},
 	},
@@ -150,9 +150,8 @@ function App() {
 			<div className={classes.body}>
 				<h1>SoungLah Translator</h1>
 				<p>
-					SoungLah accompany you in translating text from English and French to
-					local languages in Cameroon. Just give it a source text and choose the
-					language you want it to be translated.
+					Just give it a source text and choose the language you want it to be
+					translated.
 				</p>
 				{loading ? (
 					<div className="container">
