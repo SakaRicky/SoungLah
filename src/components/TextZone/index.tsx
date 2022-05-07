@@ -1,4 +1,4 @@
-import { createStyles, Paper, Select, Textarea } from "@mantine/core";
+import { createStyles, Paper, Select } from "@mantine/core";
 import React, { ChangeEvent } from "react";
 import { Language } from "../../types";
 
@@ -37,9 +37,45 @@ const useStyles = createStyles(
 				? `2px solid ${theme.colors.red[5]}`
 				: "nine",
 		},
+		textArea: {
+			height: "10vh",
+			borderRadius: "0.5rem",
+			outline: `2px solid ${theme.colors.gray[4]}`,
+			border: "none",
+			width: "100%",
+			fontSize: "1.5rem",
+			padding: "1rem",
+
+			// Media query with value from theme
+			[`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+				height: "30vh",
+			},
+
+			textarea: {
+				border: "none",
+				outline: "none",
+				fontSize: "1.5rem",
+				width: "100%",
+				height: "100%",
+				fontFamily: "inherit",
+			},
+		},
 		h5: {
 			margin: "0",
 			color: "red",
+		},
+		translatedTextArea: {
+			border: `2px solid ${theme.colors.gray[4]}`,
+			borderRadius: "0.5rem",
+			height: "10vh",
+			marginTop: "1rem",
+			padding: "1rem",
+			fontSize: "1.5rem",
+
+			// Media query with value from theme
+			[`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+				height: "30vh",
+			},
 		},
 	})
 );
@@ -70,32 +106,30 @@ export const TextZone = ({
 
 	if (type === "input") {
 		return (
-			<Paper shadow="xs" radius="md" p="md" className={classes.root}>
+			<Paper shadow="xl" radius="md" p="md" className={classes.root}>
 				<Select
 					className={classes.select}
 					placeholder="Select source language"
 					data={inputLanguages}
 					radius="sm"
-					size="lg"
 					onChange={sourceLanguageChange}
 				/>
 
-				<Textarea
-					minRows={10}
-					radius="md"
-					size="xl"
-					placeholder={
-						noTextError ? "Please enter some text" : "Select source language"
-					}
-					required
-					onChange={sourceTextChange}
-				/>
+				<div className={classes.textArea}>
+					<textarea
+						placeholder={
+							noTextError ? "Please enter some text" : "Select source language"
+						}
+						required
+						onChange={sourceTextChange}
+					/>
+				</div>
 			</Paper>
 		);
 	}
 
 	return (
-		<Paper shadow="xs" radius="md" p="md" className={classes.root}>
+		<Paper shadow="xl" radius="md" p="md" className={classes.root}>
 			{manyTargetLanguages ? (
 				<Select
 					className={classes.select}
@@ -104,16 +138,10 @@ export const TextZone = ({
 					radius="sm"
 				/>
 			) : (
-				<h5 style={{ margin: "0.5rem", fontSize: "1.2rem" }}>Medumba</h5>
+				<h5 style={{ fontSize: "1.5rem" }}>Medumba</h5>
 			)}
 
-			<Textarea
-				minRows={10}
-				radius="md"
-				size="xl"
-				required
-				value={translated}
-			/>
+			<div className={classes.translatedTextArea}>{translated}</div>
 		</Paper>
 	);
 };
