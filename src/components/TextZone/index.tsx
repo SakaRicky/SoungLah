@@ -118,7 +118,7 @@ export const TextZone = ({
 				<div className={classes.textArea}>
 					<textarea
 						placeholder={
-							noTextError ? "Please enter some text" : "Select source language"
+							noTextError ? "Select source language" : "Please enter some text"
 						}
 						required
 						onChange={sourceTextChange}

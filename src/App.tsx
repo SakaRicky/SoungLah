@@ -27,6 +27,11 @@ const useStyles = createStyles(theme => ({
 		height: "90%",
 		backgroundColor: theme.colors.gray[1],
 
+		// Media query with value from theme
+		[`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+			height: "80vh",
+		},
+
 		h1: {},
 	},
 
