@@ -14,12 +14,15 @@ export interface Translated {
 	translatedText: string;
 }
 
+export interface Activated {
+	translatedText: string;
+}
+
 // interface TranslateResponse {
 // 	translate: Translated;
 // }
 
 async function query(data: { inputs: string }) {
-	console.log("Fetching from query");
 	try {
 		const response = await fetch(
 			"https://api-inference.huggingface.co/models/rickySaka/en-md",
@@ -31,24 +34,22 @@ async function query(data: { inputs: string }) {
 				body: JSON.stringify(data),
 			}
 		);
-		const result = await response.json();
-		console.log(result);
 
-		return result;
-	} catch (error) {
-		console.log(error);
-		return error;
+		return response;
+	} catch (error: any) {
+		throw new Error("translation server error, logging", error);
 	}
 }
 
 export const translate = async ({ srcLanguage, text }: TranslateProps) => {
 	try {
-		const res = await query({ inputs: text });
+		const response = await query({ inputs: text });
+		const result = await response.json();
 
 		return {
 			srcLanguage: srcLanguage,
 			targetLanguage: "med",
-			translatedText: res[0].generated_text,
+			translatedText: result[0].generated_text,
 		};
 
 		// const { data } = await axios.post<TranslateResponse>(
@@ -62,16 +63,23 @@ export const translate = async ({ srcLanguage, text }: TranslateProps) => {
 
 		// return data.translate;
 	} catch (error: any) {
-		console.log(error.message);
+		throw new Error("Error in translate", error);
 	}
 };
 
-export const activateModel = async () => {
-	try {
-		const res = await query({ inputs: "sample" });
+export const activateModel = async (): Promise<Activated> => {
+	// if (typeof(res.error) === "string") {
+	// 	throw new Error("Server loading model");
+	// }
 
-		return res;
+	try {
+		const response = await query({ inputs: "sample" });
+		const result = await response.json();
+
+		return {
+			translatedText: result[0].generated_text,
+		};
 	} catch (error: any) {
-		console.log(error.message);
+		throw new Error("Error caught by activateModel", error);
 	}
 };

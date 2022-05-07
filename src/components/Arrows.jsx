@@ -27,7 +27,7 @@ export const RightArrow = () => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			class="icon icon-tabler icon-tabler-arrow-bar-right"
+			className="icon icon-tabler icon-tabler-arrow-bar-right"
 			width="40"
 			height="40"
 			viewBox="0 0 24 24"

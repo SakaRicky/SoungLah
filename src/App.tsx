@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useEffect } from "react";
 import "./App.scss";
 import { Button, createStyles, MediaQuery } from "@mantine/core";
-import { Header, TextZone } from "./components";
+import { Footer, Header, TextZone } from "./components";
 import { activateModel, translate, Translated } from "./services";
 import { DownArrow, RightArrow } from "./components/Arrows";
 import { TranslatingLoader } from "./components";
@@ -26,6 +26,7 @@ const useStyles = createStyles(theme => ({
 
 	body: {
 		padding: "1rem",
+		height: "80%",
 
 		h1: {},
 	},
@@ -50,7 +51,8 @@ const useStyles = createStyles(theme => ({
 		width: "50%",
 		maxWidth: "500px",
 		margin: "1rem auto",
-		backgroundColor: theme.colors.brown[5],
+		backgroundColor: theme.colors.brown[2],
+		color: theme.colors.gray[8],
 
 		"&:hover": {
 			backgroundColor: theme.colors.brown[3],
@@ -76,14 +78,21 @@ function App() {
 	const [nosourceLanguagetError, setNosourceLanguagetErrorError] =
 		useState(false);
 
-	useEffect(() => {
+	const requestActivateModel = async () => {
 		try {
-			const modelRespond = activateModel();
-			console.log(modelRespond);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
+			// try to activate by fetching a translation. If
+			const modelRespond = await activateModel();
+			if (modelRespond.translatedText) {
+				setLoading(false);
+			}
+		} catch (error: any) {
+			console.log("error in App useEffect", error);
+			setLoading(true);
 		}
+	};
+
+	useEffect(() => {
+		requestActivateModel();
 	}, []);
 
 	const sourceLanguageChange = (value: string) => {
@@ -96,29 +105,40 @@ function App() {
 	};
 
 	const fetchTranslation = async () => {
-		if (sourceText === "") {
-			setNoTextError(true);
-			setInterval(() => {
-				setNoTextError(false);
-			}, 5000);
-		} else if (sourceLanguage === "") {
-			setNosourceLanguagetErrorError(true);
-			setInterval(() => {
-				setNosourceLanguagetErrorError(false);
-			}, 5000);
-		} else {
-			setIsTranslating(true);
-			const translated: Translated | undefined = await translate({
-				srcLanguage: sourceLanguage,
-				text: sourceText,
-			});
-			console.log(translated);
+		try {
+			if (sourceText === "") {
+				setNoTextError(true);
+				setInterval(() => {
+					setNoTextError(false);
+				}, 5000);
+			} else if (sourceLanguage === "") {
+				setNosourceLanguagetErrorError(true);
+				setInterval(() => {
+					setNosourceLanguagetErrorError(false);
+				}, 5000);
+			} else {
+				setIsTranslating(true);
+				const translated: Translated | undefined = await translate({
+					srcLanguage: sourceLanguage,
+					text: sourceText,
+				});
+				console.log(translated);
 
-			if (translated !== undefined) {
-				setTranslatedText(translated.translatedText);
-				setChangingSourceText(false);
-				setIsTranslating(false);
+				if (translated !== undefined) {
+					setTranslatedText(translated.translatedText);
+					setChangingSourceText(false);
+					setIsTranslating(false);
+				}
 			}
+		} catch (error) {
+			console.log("Error in fetchTranslation App", error);
+			setLoading(true);
+			setSourceLanguage(sourceLanguage);
+			setSourceText(sourceText);
+			setTimeout(() => {
+				setLoading(false);
+				fetchTranslation();
+			}, 20000);
 		}
 	};
 
@@ -130,7 +150,7 @@ function App() {
 			<div className={classes.body}>
 				<h1>SoungLah Translator</h1>
 				<p>
-					SoungLah accompany you in translating text from English and french to
+					SoungLah accompany you in translating text from English and French to
 					local languages in Cameroon. Just give it a source text and choose the
 					language you want it to be translated.
 				</p>
@@ -175,6 +195,7 @@ function App() {
 					</div>
 				)}
 			</div>
+			<Footer />
 		</div>
 	);
 }

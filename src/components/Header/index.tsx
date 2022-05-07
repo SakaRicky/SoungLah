@@ -8,13 +8,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 		backgroundColor:
 			theme.colorScheme === "dark"
 				? theme.colors.dark[5]
-				: theme.colors.brown[1],
+				: theme.colors.brown[0],
 		color: theme.colors.gray[7],
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "space-between",
 		padding: "1rem 2rem",
-		// borderRadius: theme.radius.sm,
+		height: "5vh",
 
 		// Dynamic media queries, define breakpoints in theme, use anywhere
 		[`@media (max-width: ${theme.breakpoints.sm}px)`]: {
