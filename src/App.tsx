@@ -29,11 +29,6 @@ const useStyles = createStyles(theme => ({
 	body: {
 		padding: "1rem",
 
-		// Media query with value from theme
-		// [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
-		// 	height: "80vh",
-		// },
-
 		h1: {},
 	},
 
@@ -55,10 +50,12 @@ const useStyles = createStyles(theme => ({
 		display: "block",
 		borderRadius: "1rem",
 		width: "50%",
-		maxWidth: "500px",
+		maxWidth: "200px",
 		margin: "1rem auto",
 		backgroundColor: theme.colors.brown[2],
 		color: theme.colors.gray[8],
+		fontSize: "1.5rem",
+		height: "2.5rem",
 
 		"&:hover": {
 			backgroundColor: theme.colors.brown[3],
