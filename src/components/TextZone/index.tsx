@@ -1,7 +1,6 @@
 import { createStyles, Paper, Select } from "@mantine/core";
 import React, { ChangeEvent } from "react";
 import { Language } from "../../types";
-
 export interface TextZone {
 	type: "input" | "output";
 	sourceTextChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -9,6 +8,9 @@ export interface TextZone {
 	translated?: string;
 	noTextError?: boolean;
 	nosourceLanguagetError?: boolean;
+	srcLanguage: string;
+	targetLanguage?: string;
+	sourceText?: string;
 }
 
 interface StyleProps {
@@ -87,6 +89,10 @@ export const TextZone = ({
 	translated,
 	noTextError,
 	nosourceLanguagetError,
+	srcLanguage,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	targetLanguage,
+	sourceText,
 }: TextZone) => {
 	const { classes } = useStyles({ noTextError, nosourceLanguagetError });
 
@@ -113,6 +119,7 @@ export const TextZone = ({
 					data={inputLanguages}
 					radius="sm"
 					onChange={sourceLanguageChange}
+					value={srcLanguage}
 				/>
 
 				<div className={classes.textArea}>
@@ -122,6 +129,7 @@ export const TextZone = ({
 						}
 						required
 						onChange={sourceTextChange}
+						value={sourceText}
 					/>
 				</div>
 			</Paper>

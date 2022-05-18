@@ -4,7 +4,6 @@ import logo from "../../sounglah-logo.svg";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
 	header: {
-		// subscribe to color scheme changes right in your styles
 		backgroundColor:
 			theme.colorScheme === "dark"
 				? theme.colors.dark[5]
@@ -25,7 +24,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 		},
 
 		a: {
-			fontWeight: "900",
+			fontWeight: "bolder",
 			fontStyle: "italic",
 			fontSize: "1.5rem",
 			textDecoration: "none",
