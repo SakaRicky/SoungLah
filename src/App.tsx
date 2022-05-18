@@ -5,6 +5,7 @@ import { Footer, Header, TextZone } from "./components";
 import { activateModel, translate, Translated } from "./services";
 import { DownArrow, RightArrow } from "./components/Arrows";
 import { TranslatingLoader } from "./components";
+import LanguageDetect from "languagedetect";
 
 const useStyles = createStyles(theme => ({
 	app: {
@@ -72,12 +73,15 @@ const useStyles = createStyles(theme => ({
 function App() {
 	const { classes } = useStyles();
 	const [sourceLanguage, setSourceLanguage] = useState<string>("");
+	// const [targetLanguage, setTargetLanguage] = useState<string>("");
 	const [sourceText, setSourceText] = useState<string>("");
 	const [changingsourceText, setChangingSourceText] = useState<boolean>(false);
 	const [translatedText, setTranslatedText] = useState<string>("");
 	const [loading, setLoading] = useState(true);
 	const [isTranslating, setIsTranslating] = useState(false);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [noTextError, setNoTextError] = useState(false);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [nosourceLanguagetError, setNosourceLanguagetErrorError] =
 		useState(false);
 
@@ -98,40 +102,43 @@ function App() {
 		requestActivateModel();
 	}, []);
 
+	const lngDetector = new LanguageDetect();
+
 	const sourceLanguageChange = (value: string) => {
 		setSourceLanguage(value);
 	};
 
-	const sourceTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-		setSourceText(event.target.value);
+	const sourceTextChange = async (event: ChangeEvent<HTMLTextAreaElement>) => {
+		const text = event.target.value;
+		const detectedLanguage = lngDetector.detect(text);
+		setSourceText(text);
 		setChangingSourceText(true);
+
+		if (detectedLanguage.length !== 0) {
+			if (detectedLanguage[0][0] === "french") {
+				setSourceLanguage("fre");
+			} else {
+				setSourceLanguage("eng");
+			}
+		}
+		fetchTranslation(text);
 	};
 
-	const fetchTranslation = async () => {
+	const fetchTranslation = async (text: string) => {
 		try {
-			if (sourceText === "") {
-				setNoTextError(true);
-				setInterval(() => {
-					setNoTextError(false);
-				}, 5000);
-			} else if (sourceLanguage === "") {
-				setNosourceLanguagetErrorError(true);
-				setInterval(() => {
-					setNosourceLanguagetErrorError(false);
-				}, 5000);
-			} else {
-				setIsTranslating(true);
-				const translated: Translated | undefined = await translate({
-					srcLanguage: sourceLanguage,
-					text: sourceText,
-				});
-				console.log(translated);
-
-				if (translated !== undefined) {
-					setTranslatedText(translated.translatedText);
-					setChangingSourceText(false);
-					setIsTranslating(false);
-				}
+			setIsTranslating(true);
+			const translated: Translated | undefined =
+				sourceLanguage !== ""
+					? await translate({
+							srcLanguage: sourceLanguage,
+							text: text,
+					  })
+					: undefined;
+			if (translated !== undefined) {
+				setTranslatedText(translated.translatedText);
+				// setSourceText(translated.srcText);
+				setChangingSourceText(false);
+				setIsTranslating(false);
 			}
 		} catch (error) {
 			console.log("Error in fetchTranslation App", error);
@@ -140,8 +147,8 @@ function App() {
 			setSourceText(sourceText);
 			setTimeout(() => {
 				setLoading(false);
-				fetchTranslation();
-			}, 20000);
+				fetchTranslation(sourceText);
+			}, 25000);
 		}
 	};
 
@@ -169,6 +176,8 @@ function App() {
 								sourceTextChange={sourceTextChange}
 								noTextError={noTextError}
 								nosourceLanguagetError={nosourceLanguagetError}
+								srcLanguage={sourceLanguage}
+								sourceText={sourceText}
 							/>
 
 							{isTranslating ? (
@@ -189,9 +198,17 @@ function App() {
 								</div>
 							)}
 
-							<TextZone type="output" translated={textToDisplayInTranslated} />
+							<TextZone
+								type="output"
+								translated={textToDisplayInTranslated}
+								srcLanguage={sourceLanguage}
+								targetLanguage={sourceLanguage}
+							/>
 						</div>
-						<Button className={classes.button} onClick={fetchTranslation}>
+						<Button
+							className={classes.button}
+							onClick={() => fetchTranslation(sourceText)}
+						>
 							Translate
 						</Button>
 					</div>
