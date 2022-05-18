@@ -5,7 +5,6 @@ import { Footer, Header, TextZone } from "./components";
 import { activateModel, translate, Translated } from "./services";
 import { DownArrow, RightArrow } from "./components/Arrows";
 import { TranslatingLoader } from "./components";
-import LanguageDetect from "languagedetect";
 
 const useStyles = createStyles(theme => ({
 	app: {
@@ -79,11 +78,8 @@ function App() {
 	const [translatedText, setTranslatedText] = useState<string>("");
 	const [loading, setLoading] = useState(true);
 	const [isTranslating, setIsTranslating] = useState(false);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [noTextError, setNoTextError] = useState(false);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [nosourceLanguagetError, setNosourceLanguagetErrorError] =
-		useState(false);
+	const [nosourceLanguagetError, setNosourceLanguagetError] = useState(false);
 
 	const requestActivateModel = async () => {
 		try {
@@ -102,57 +98,44 @@ function App() {
 		requestActivateModel();
 	}, []);
 
-	const lngDetector = new LanguageDetect();
-
 	const sourceLanguageChange = (value: string) => {
 		setSourceLanguage(value);
 	};
 
 	const sourceTextChange = async (event: ChangeEvent<HTMLTextAreaElement>) => {
 		const text = event.target.value;
-		const detectedLanguage = lngDetector.detect(text);
 		setSourceText(text);
 		setChangingSourceText(true);
-		console.log(detectedLanguage);
-
-		if (detectedLanguage.length !== 0) {
-			if (detectedLanguage[0][0] === "french") {
-				setSourceLanguage("fre");
-			} else {
-				setSourceLanguage("eng");
-			}
-		}
-		if (text === "") {
-			setIsTranslating(false);
-		}
-
-		if (sourceLanguage !== "" && text !== "") {
-			fetchTranslation(text);
-		}
 	};
 
-	const fetchTranslation = async (text: string) => {
-		try {
-			setIsTranslating(true);
-			const translated: Translated | undefined = await translate({
-				srcLanguage: sourceLanguage,
-				text: text,
-			});
-			if (translated !== undefined) {
-				setTranslatedText(translated.translatedText);
-				// setSourceText(translated.srcText);
-				setChangingSourceText(false);
-				setIsTranslating(false);
+	const fetchTranslation = async () => {
+		if (sourceLanguage === "") {
+			setNosourceLanguagetError(true);
+		} else if (sourceText === "") {
+			setNoTextError(true);
+		} else {
+			try {
+				setIsTranslating(true);
+				const translated: Translated | undefined = await translate({
+					srcLanguage: sourceLanguage,
+					text: sourceText,
+				});
+				if (translated !== undefined) {
+					setTranslatedText(translated.translatedText);
+					// setSourceText(translated.srcText);
+					setChangingSourceText(false);
+					setIsTranslating(false);
+				}
+			} catch (error) {
+				console.log("Error in fetchTranslation App", error);
+				setLoading(true);
+				setSourceLanguage(sourceLanguage);
+				setSourceText(sourceText);
+				setTimeout(() => {
+					setLoading(false);
+					fetchTranslation();
+				}, 25000);
 			}
-		} catch (error) {
-			console.log("Error in fetchTranslation App", error);
-			setLoading(true);
-			setSourceLanguage(sourceLanguage);
-			setSourceText(sourceText);
-			setTimeout(() => {
-				setLoading(false);
-				fetchTranslation(sourceText);
-			}, 25000);
 		}
 	};
 
@@ -209,10 +192,7 @@ function App() {
 								targetLanguage={sourceLanguage}
 							/>
 						</div>
-						<Button
-							className={classes.button}
-							onClick={() => fetchTranslation(sourceText)}
-						>
+						<Button className={classes.button} onClick={fetchTranslation}>
 							Translate
 						</Button>
 					</div>
