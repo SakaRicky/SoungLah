@@ -113,6 +113,7 @@ function App() {
 		const detectedLanguage = lngDetector.detect(text);
 		setSourceText(text);
 		setChangingSourceText(true);
+		console.log(detectedLanguage);
 
 		if (detectedLanguage.length !== 0) {
 			if (detectedLanguage[0][0] === "french") {
