@@ -32,6 +32,17 @@ const useStyles = createStyles(theme => ({
 		h1: {},
 	},
 
+	container: {
+		width: "80%",
+		maxWidth: "1200px",
+		margin: "0 auto",
+
+		// for screens from lg=1200px upwards
+		[`@media (max-width: ${theme.breakpoints.lg}px)`]: {
+			width: "100%",
+		},
+	},
+
 	translationArea: {
 		width: "100%",
 		display: "flex",
@@ -48,17 +59,20 @@ const useStyles = createStyles(theme => ({
 	},
 	button: {
 		display: "block",
-		borderRadius: "1rem",
+		borderRadius: "0.5rem",
 		width: "50%",
 		maxWidth: "200px",
 		margin: "1rem auto",
 		backgroundColor: theme.colors.brown[2],
 		color: theme.colors.gray[8],
-		fontSize: "1.5rem",
+		fontSize: "1.2rem",
 		height: "2.5rem",
+		padding: "0.5rem 0",
+		transition: "all 150ms ease-in",
 
 		"&:hover": {
-			backgroundColor: theme.colors.brown[3],
+			backgroundColor: theme.colors.brown[5],
+			color: "white",
 		},
 	},
 	arrow: {
@@ -145,58 +159,60 @@ function App() {
 		<div className={classes.app}>
 			<Header />
 			<body className={classes.body}>
-				<h1>SoungLah Translator</h1>
-				<p>
-					Just give it a source text and choose the language you want it to be
-					translated.
-				</p>
-				{loading ? (
-					<div className="container">
-						<div className="circleloader"></div>
-					</div>
-				) : (
-					<div>
-						<div className={classes.translationArea}>
-							<TextZone
-								type="input"
-								sourceLanguageChange={sourceLanguageChange}
-								sourceTextChange={sourceTextChange}
-								noTextError={noTextError}
-								nosourceLanguagetError={nosourceLanguagetError}
-								srcLanguage={sourceLanguage}
-								sourceText={sourceText}
-							/>
-
-							{isTranslating ? (
-								<TranslatingLoader />
-							) : (
-								<div>
-									<MediaQuery largerThan="sm" styles={{ display: "none" }}>
-										<div className={classes.arrow}>
-											<DownArrow />
-										</div>
-									</MediaQuery>
-
-									<MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-										<div className={classes.arrow}>
-											<RightArrow />
-										</div>
-									</MediaQuery>
-								</div>
-							)}
-
-							<TextZone
-								type="output"
-								translated={textToDisplayInTranslated}
-								srcLanguage={sourceLanguage}
-								targetLanguage={sourceLanguage}
-							/>
+				<div className={classes.container}>
+					<h1>SoungLah Translator</h1>
+					<p>
+						Just give it a source text and choose the language you want it to be
+						translated.
+					</p>
+					{loading ? (
+						<div className="container">
+							<div className="circleloader"></div>
 						</div>
-						<Button className={classes.button} onClick={fetchTranslation}>
-							Translate
-						</Button>
-					</div>
-				)}
+					) : (
+						<div>
+							<div className={classes.translationArea}>
+								<TextZone
+									type="input"
+									sourceLanguageChange={sourceLanguageChange}
+									sourceTextChange={sourceTextChange}
+									noTextError={noTextError}
+									nosourceLanguagetError={nosourceLanguagetError}
+									srcLanguage={sourceLanguage}
+									sourceText={sourceText}
+								/>
+
+								{isTranslating ? (
+									<TranslatingLoader />
+								) : (
+									<div>
+										<MediaQuery largerThan="sm" styles={{ display: "none" }}>
+											<div className={classes.arrow}>
+												<DownArrow />
+											</div>
+										</MediaQuery>
+
+										<MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+											<div className={classes.arrow}>
+												<RightArrow />
+											</div>
+										</MediaQuery>
+									</div>
+								)}
+
+								<TextZone
+									type="output"
+									translated={textToDisplayInTranslated}
+									srcLanguage={sourceLanguage}
+									targetLanguage={sourceLanguage}
+								/>
+							</div>
+							<Button className={classes.button} onClick={fetchTranslation}>
+								Translate
+							</Button>
+						</div>
+					)}
+				</div>
 			</body>
 			<Footer />
 		</div>

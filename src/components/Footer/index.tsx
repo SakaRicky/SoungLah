@@ -5,17 +5,27 @@ const useStyles = createStyles(theme => ({
 	footer: {
 		background: theme.colors.brown[5],
 		color: "white",
-		display: "flex",
-		justifyContent: "space-between",
-		alignItems: "center",
-		padding: "1rem",
-		minHeight: "3rem",
 		marginTop: "auto",
 
 		// Media query with value from theme
 		// [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
 		// 	width: "auto",
 		// },
+	},
+	container: {
+		width: "80%",
+		maxWidth: "1200px",
+		margin: "0 auto",
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		padding: "1rem",
+		minHeight: "3rem",
+
+		// for screens from lg=1200px upwards
+		[`@media (max-width: ${theme.breakpoints.lg}px)`]: {
+			width: "100%",
+		},
 	},
 }));
 
@@ -24,8 +34,10 @@ export const Footer = () => {
 
 	return (
 		<footer className={classes.footer}>
-			<div>Build by Saka Ricky</div>
-			<div>All rights reserved &copy;</div>
+			<div className={classes.container}>
+				<div>Build by Saka Ricky</div>
+				<div>All rights reserved &copy;</div>
+			</div>
 		</footer>
 	);
 };

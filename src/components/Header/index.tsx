@@ -4,16 +4,14 @@ import logo from "../../sounglah-logo.svg";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
 	header: {
-		backgroundColor:
-			theme.colorScheme === "dark"
-				? theme.colors.dark[5]
-				: theme.colors.brown[0],
+		backgroundColor: "white",
 		color: theme.colors.gray[7],
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "space-between",
 		padding: "1rem 2rem",
 		minHeight: "3rem",
+		boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
 
 		// Dynamic media queries, define breakpoints in theme, use anywhere
 		[`@media (max-width: ${theme.breakpoints.sm}px)`]: {
@@ -31,10 +29,21 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 			color: "inherit",
 			display: "flex",
 			alignItems: "center",
+			width: "20%",
 
 			"&:hover": {
 				color: "#000",
 			},
+		},
+	},
+	container: {
+		width: "80%",
+		maxWidth: "1200px",
+		margin: "0 auto",
+
+		// for screens from lg=1200px upwards
+		[`@media (max-width: ${theme.breakpoints.lg}px)`]: {
+			width: "100%",
 		},
 	},
 }));
@@ -44,10 +53,12 @@ export const Header = () => {
 
 	return (
 		<header className={classes.header}>
-			<a href="/">
-				<img src={logo} alt="sounglah" />
-				SoungLah
-			</a>
+			<div className={classes.container}>
+				<a href="/">
+					<img src={logo} alt="sounglah" />
+					SoungLah
+				</a>
+			</div>
 		</header>
 	);
 };
