@@ -13,7 +13,7 @@ const useStyles = createStyles(theme => ({
 		display: "flex",
 		flexDirection: "column",
 		backgroundColor: theme.colors.gray[1],
-		// maxWidth: "1200px",
+		overflowX: "hidden",
 
 		h1: {
 			textAlign: "center",
